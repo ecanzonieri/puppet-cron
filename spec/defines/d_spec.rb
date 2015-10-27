@@ -73,7 +73,7 @@ describe 'cron::d' do
 
     it {
       should contain_file('/nail/etc/cron.d/foobar') \
-        .with_content(/0 \* \* \* \* somebody \(flock -n "\/var\/lock\/cron_foobar\.lock" overrunning command\) 2>&1 \| logger -t cron_foobar \n/)
+        .with_content(/0 \* \* \* \* somebody \(flock -n -o "\/var\/lock\/cron_foobar\.lock" overrunning command\) 2>&1 \| logger -t cron_foobar \n/)
     }
   end
 
@@ -141,9 +141,9 @@ describe 'cron::d' do
     it {
       should contain_file('/nail/etc/cron.d/foobar') \
         .with_content(%r{
-          \*\ \*\ \*\ \*\ \*\ nobody\ \(flock\ -n\ "/var/lock/cron_foobar.lock"\ \/nail\/sys\/bin\/yelp_timeout\ -s\ 9\ 2h\ echo\ hi\).*\n
-          \*\ \*\ \*\ \*\ \*\ nobody\ \(sleep\ 20;\ flock\ -n\ "/var/lock/cron_foobar.lock"\ \/nail\/sys\/bin\/yelp_timeout\ -s\ 9\ 2h\  echo\ hi\).*\n
-          \*\ \*\ \*\ \*\ \*\ nobody\ \(sleep\ 40;\ flock\ -n\ "/var/lock/cron_foobar.lock"\ \/nail\/sys\/bin\/yelp_timeout\ -s\ 9\ 2h\ echo\ hi\).*\n
+          \*\ \*\ \*\ \*\ \*\ nobody\ \(flock\ -n\ -o\ "/var/lock/cron_foobar.lock"\ \/nail\/sys\/bin\/yelp_timeout\ -s\ 9\ 2h\ echo\ hi\).*\n
+          \*\ \*\ \*\ \*\ \*\ nobody\ \(sleep\ 20;\ flock\ -n\ -o\ "/var/lock/cron_foobar.lock"\ \/nail\/sys\/bin\/yelp_timeout\ -s\ 9\ 2h\  echo\ hi\).*\n
+          \*\ \*\ \*\ \*\ \*\ nobody\ \(sleep\ 40;\ flock\ -n\ -o\ "/var/lock/cron_foobar.lock"\ \/nail\/sys\/bin\/yelp_timeout\ -s\ 9\ 2h\ echo\ hi\).*\n
         }x)
     }
   end
